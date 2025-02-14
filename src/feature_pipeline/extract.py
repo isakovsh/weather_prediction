@@ -43,7 +43,7 @@ def download_historical_data(
         "from_day":from_day,
         "to_day": to_day,
         "url": url,
-        "extracted_date": datetime.now()
+        "extracted_date": datetime.now().isoformat()
     }
 
     return data , meatadata

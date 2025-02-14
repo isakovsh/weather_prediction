@@ -18,9 +18,9 @@ def to_feature_store(
     weather_feature_group = feature_store.get_or_create_feature_group(
         name="weather_data",
         version=feature_group_version,
-        description="Seoul hourly weather  data.",
+        description="Seoul hourly weather data.",
         primary_key=["time"],
-        # event_time="datetime_utc",
+        event_time="time",
         online_enabled=False,
     )
 
