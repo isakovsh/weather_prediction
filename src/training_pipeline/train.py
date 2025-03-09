@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import fire
 
 from xgboost import XGBRegressor 
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error , mean_squared_error
 from data import load_data_from_feature_store 
 
@@ -39,17 +40,7 @@ def train(configs):
     logger.info("Sucsessfully loaded data")
 
     logger.info("Initializing model")
-    model = XGBRegressor(
-        gamma = configs['gamma'],
-        max_depth= configs['max_depth'],
-        reg_alpha= configs['reg_alpha'],
-        subsample= configs['subsample'],
-        reg_lambda= configs['reg_lambda'],
-        n_estimators= configs['n_estimators'],
-        learning_rate= configs['learning_rate'],
-        colsample_bytree= configs['colsample_bytree'],
-        min_child_weight= configs['min_child_weight']
-    )
+    model = RandomForestRegressor()
 
     logger.info("Start training")
     start_time = time.time()

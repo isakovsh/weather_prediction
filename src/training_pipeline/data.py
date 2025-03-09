@@ -40,6 +40,7 @@ def load_data_from_feature_store(
 
     df = df.sort_values(by='time')
     df = create_lagged_features(df,'temperature_2m')
+    df.dropna(inplace=True)
 
     cutoff_date = df['time'].iloc[int(len(df) * 0.8)]  # 80% cutoff date
 
@@ -47,22 +48,24 @@ def load_data_from_feature_store(
     train_data = df[df['time'] <= cutoff_date]
     test_data = df[df['time'] > cutoff_date]
 
-    X_train = train_data.drop(labels=['time','temperature_2m'],axis = 1)
-    y_train = train_data['temperature_2m']
+    X_train = train_data.drop(labels=['time','Next_hour'],axis = 1)
+    y_train = train_data['Next_hour']
 
-    X_test = test_data.drop(labels=['time','temperature_2m'],axis = 1)
-    y_test = test_data['temperature_2m']
+    X_test = test_data.drop(labels=['time','Next_hour'],axis = 1)
+    y_test = test_data['Next_hour']
 
     return X_train , X_test , y_train , y_test 
 
-def create_lagged_features(df, target, lags=[1, 2, 3], rolling_windows=[3, 6]):
-    """Adds lag features and rolling window averages to the dataframe."""
+def create_lagged_features(df, target, lags=[1, 2, 3]):
+    """Adds lag features  to the dataframe."""
     data = df.copy()
 
     for lag in lags:
         data[f"{target}_lag_{lag}"] = data[target].shift(lag)
 
-    data.fillna(method='ffill',inplace = True)
+    data[f"Next_hour"] = data[target].shift(-1)
+    data.ffill(inplace=True)
+
     return data
 
        
