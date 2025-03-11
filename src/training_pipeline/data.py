@@ -68,4 +68,10 @@ def create_lagged_features(df, target, lags=[1, 2, 3]):
 
     return data
 
+
+if __name__ == "__main__":
+
+    X_train , X_test , y_train , y_test  = load_data_from_feature_store(1,1)
+    print(X_train.columns)
+
        
