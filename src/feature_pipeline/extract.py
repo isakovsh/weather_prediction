@@ -68,6 +68,7 @@ def download_current_data(
         forecast_data = response_forecast.json()
     except Exception as e:
         return f"Error {e}"
+    # smelly code, dependency smell
 
     # Extract real-time data
     current_weather = forecast_data["current"]
