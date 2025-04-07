@@ -1,0 +1,46 @@
+name: MLOps Automation
+
+on:
+  push:
+    branches: [main]         # Trigger on pushes to the main branch
+  schedule:
+    - cron: '0 * * * *'      # Trigger every hour (UTC)
+  workflow_dispatch:         # Allow manual triggering
+
+jobs:
+  mlops:
+    runs-on: ubuntu-latest
+
+    env:
+        FS_API_KEY: ${{ secrets.FS_API_KEY }}
+        FS_PROJECT_NAME: ${{ secrets.FS_PROJECT_NAME }}
+        WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
+        WANDB_ENTITY: ${{ secrets.WANDB_ENTITY }}
+        WANDB_PROJECT_NAME: ${{ secrets.WANDB_PROJECT_NAME }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Feature Pipeline
+      run: |
+        source venv/bin/activate
+        python feature_pipeline/pipeline.py
+
+
+    - name: Run Inference Pipeline
+      run: |
+        source venv/bin/activate
+        python inference_pipeline/inference.py

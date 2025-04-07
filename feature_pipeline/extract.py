@@ -70,7 +70,7 @@ def download_current_data(
         return f"Error {e}"
 
     # Extract real-time data
-    current_weather = forecast_data["current"]
+    current_weather = pd.DataFrame(forecast_data["current"])
 
     meta_data = {
         "url":url, 

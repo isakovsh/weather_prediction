@@ -14,7 +14,8 @@ def run(
 ):
     
     logger.info("Downloading data from API")
-    data , metadata = download_historical_data()
+    # data , metadata = download_historical_data()
+    data , metadata = download_current_data()
     logger.info("Sucsessfully downloaded data")
 
     logger.info("Transforming data")
