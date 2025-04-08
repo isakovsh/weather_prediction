@@ -17,6 +17,7 @@ jobs:
         WANDB_API_KEY: ${{ secrets.WANDB_API_KEY }}
         WANDB_ENTITY: ${{ secrets.WANDB_ENTITY }}
         WANDB_PROJECT_NAME: ${{ secrets.WANDB_PROJECT_NAME }}
+    
 
     steps:
     - name: Checkout code
@@ -26,6 +27,14 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+        
+    - name: Debug print
+      run: |
+        echo "FS_PROJECT_NAME is: $FS_PROJECT_NAME"
+        echo "API Key starts with: ${FS_API_KEY:0:30}"
+      env:
+        FS_API_KEY: ${{ secrets.FS_API_KEY }}
+        FS_PROJECT_NAME: ${{ secrets.FS_PROJECT_NAME }}
 
     - name: Install dependencies
       run: |
@@ -44,3 +53,6 @@ jobs:
       run: |
         source venv/bin/activate
         python inference_pipeline/inference.py
+
+
+    
