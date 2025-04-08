@@ -27,6 +27,7 @@ jobs:
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+        
     - name: Debug print
       run: |
         echo "FS_PROJECT_NAME is: $FS_PROJECT_NAME"
@@ -34,6 +35,24 @@ jobs:
       env:
         FS_API_KEY: ${{ secrets.FS_API_KEY }}
         FS_PROJECT_NAME: ${{ secrets.FS_PROJECT_NAME }}
+
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Feature Pipeline
+      run: |
+        source venv/bin/activate
+        python feature_pipeline/pipeline.py
+
+
+    - name: Run Inference Pipeline
+      run: |
+        source venv/bin/activate
+        python inference_pipeline/inference.py
 
 
     
