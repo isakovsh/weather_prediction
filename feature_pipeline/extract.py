@@ -74,7 +74,7 @@ def download_current_data(
 
     meta_data = {
         "url":url, 
-        "curren_time": datetime.now()
+        "curren_time": datetime.now().isoformat()
     }
 
     return current_weather , meta_data

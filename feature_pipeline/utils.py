@@ -29,7 +29,6 @@ def save_json(data: dict, file_name: str):
     Args:
         data: data to save.
         file_name: Name of the JSON file.
-        save_dir: Directory to save the JSON file.
 
     Returns: None
     """

@@ -20,6 +20,11 @@ def run(
 
     logger.info("Transforming data")
     data = transform_data(data)
+    # Debugging 
+    print(data.columns)
+    if "interval" in data.columns:
+        print("Dropping unexpected column 'interval'")
+        data = data.drop(columns=["interval"])
     logger.info("Sucsessfully transformed data")
 
     logger.info("Loading data to  featurestore")
