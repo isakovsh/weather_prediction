@@ -79,7 +79,7 @@ def save_weather_data(real_temp: Optional[float] = None,
         # Update previous prediction with real temperature
         if real_temp is not None:
             last_entry = fg.read().sort_values("time", ascending=False).iloc[[0]]
-            if not last_entry.empty and last_entry["time"].values[0] == now:
+            if not last_entry.empty:
                 last_entry["real_temperature"] = real_temp
                 fg.insert(last_entry, overwrite=True, write_options={"wait_for_job": True})
                 logger.info("Updated real temperature for current hour")
