@@ -41,7 +41,7 @@ def predict(model_version:Optional[int]=2):
         prediction = model.predict(inference_data)
         logger.info("Finishid predictions")
 
-        return prediction[0]
+        return current_data['temperature_2m'], prediction[0]
 
     except Exception as e:
         logger.error(f"Prediction failed: {str(e)}")
@@ -100,12 +100,13 @@ def save_weather_data(real_temp: Optional[float] = None,
     except Exception as e:
         logger.error(f"Data saving failed: {str(e)}")
         raise
+
 def run():
     """Orchestrate prediction and saving process."""
     try:
 
-        predicted_temp = predict(model_version=2)
-        save_weather_data(pred_temp=predicted_temp)
+        current_temp , predicted_temp = predict(model_version=2)
+        save_weather_data(current_temp = current_temp,pred_temp=predicted_temp)
         logger.info("Pipeline executed successfully")
 
     except Exception as e:
