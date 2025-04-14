@@ -106,7 +106,7 @@ def run():
     try:
 
         current_temp , predicted_temp = predict(model_version=2)
-        save_weather_data(current_temp = current_temp,pred_temp=predicted_temp)
+        save_weather_data(real_temp = current_temp,pred_temp=predicted_temp)
         logger.info("Pipeline executed successfully")
 
     except Exception as e:
