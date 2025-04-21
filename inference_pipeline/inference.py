@@ -77,7 +77,7 @@ def save_weather_data(real_temp: Optional[float] = None,
         )
         
         # Update previous prediction with real temperature
-         if real_temp is not None:
+        if real_temp is not None:
             df = fg.read()
             if df.empty:
                 logger.warning("Feature group is empty. Skipping last entry update.")
