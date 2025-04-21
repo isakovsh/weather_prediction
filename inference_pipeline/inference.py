@@ -18,7 +18,7 @@ now = datetime.now(timezone).replace(minute=0,second=0, microsecond=0)
 next_hour = now + pd.Timedelta(hours=1)
 
 
-def predict(model_version:Optional[int]=2):
+def predict(model_version:Optional[int]=3):
     """Generate temperature prediction for the next hour."""
     try:
         logger.info("Loading current weather data from API...")
@@ -54,9 +54,6 @@ def save_weather_data(real_temp: Optional[float] = None,
                       feature_group_version: int = 1) -> None:
     """Save weather data to feature store with timezone handling"""
     try:
-        # Timezone setup
-        
-        
         # Hopsworks connection
         project = hopsworks.login(
             api_key_value=os.getenv("FS_API_KEY"),
@@ -88,7 +85,7 @@ def save_weather_data(real_temp: Optional[float] = None,
         if pred_temp is not None:
             new_data = pd.DataFrame([{
                 "time": pd.to_datetime(next_hour),
-                "real_temperature": -1,
+                "real_temperature": -1.1,
                 "predicted_temperature": pred_temp
             }])
             fg.insert(new_data, write_options={"wait_for_job": True})
@@ -105,7 +102,7 @@ def run():
     """Orchestrate prediction and saving process."""
     try:
 
-        current_temp , predicted_temp = predict(model_version=2)
+        current_temp , predicted_temp = predict(model_version=3)
         save_weather_data(real_temp = current_temp,pred_temp=predicted_temp)
         logger.info("Pipeline executed successfully")
 
