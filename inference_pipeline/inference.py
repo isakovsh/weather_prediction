@@ -75,12 +75,18 @@ def save_weather_data(real_temp: Optional[float] = None,
         
         # Update previous prediction with real temperature
         if real_temp is not None:
-            last_entry = fg.read().sort_values("time", ascending=False).iloc[[0]]
-            if not last_entry.empty:
+            df = fg.read()
+            if df.empty:
+                logger.warning("Feature group is empty. Skipping last entry update.")
+                last_entry = None  # Skip or handle case appropriately
+            else:
+                last_entry = df.sort_values("time", ascending=False).iloc[[0]]
+                
+            if last_entry is not None and not last_entry.empty:
                 last_entry["real_temperature"] = real_temp
                 fg.insert(last_entry, overwrite=True, write_options={"wait_for_job": True})
                 logger.info("Updated real temperature for current hour")
-        
+                
         # Save new prediction
         if pred_temp is not None:
             new_data = pd.DataFrame([{
