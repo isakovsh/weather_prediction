@@ -61,7 +61,7 @@ def save_weather_data(real_temp: Optional[float] = None,
         )
         fs = project.get_feature_store()
         fg = fs.get_or_create_feature_group(
-            name="weather_prediction_data",
+            name="predicted_data",
             version=feature_group_version,
             primary_key=["time"],
             event_time="time",
